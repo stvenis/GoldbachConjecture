@@ -1,0 +1,35 @@
+CREATE TABLE even_and_prime(
+
+even bigint(40)  COMMENT '大于2的偶数',
+prime1 bigint(40) COMMENT '哥德巴赫分拆数1',
+prime2 bigint(40) COMMENT '哥德巴赫分拆数2',
+prime3 bigint(40) COMMENT '哥德巴赫分拆数3',
+flag char(1) comment '标志位',
+comment varchar(40) comment 备注'
+
+) DEFAULT CHARSET=UTF8;
+	
+//复制表结构及数据到新表 
+create table goldbach_conjecture_5000_10000
+select * from even_and_prime;
+
+//只复制表结构到新表
+create  table wec
+select * from even_and_prime 
+where 1=2;
+
+select even,count(1) from 
+even_and_prime 
+group by 
+even 
+having  count(1)=(select count(1) from 
+even_and_prime 
+where even in 
+(select even from
+(select even,count(1)  
+from 
+even_and_prime 
+group by 
+even 
+order by count(1) 
+limit 0,1) as even_temp));
